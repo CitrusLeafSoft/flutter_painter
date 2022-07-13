@@ -2,16 +2,21 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_painter/flutter_painter.dart';
 
 import '../object_drawable.dart';
-import 'shape_drawable.dart';
 import '../sized1ddrawable.dart';
+import 'shape_drawable.dart';
 
 /// A drawable of a simple line shape.
 class LineDrawable extends Sized1DDrawable implements ShapeDrawable {
   /// The paint to be used for the line drawable.
   @override
   Paint paint;
+
+  bool canMoveVertically = true;
+  bool canMoveHorizontally = true;
+  bool isGridLine = false;
 
   /// Creates a new [LineDrawable] with the given [length] and [paint].
   LineDrawable({
@@ -21,8 +26,7 @@ class LineDrawable extends Sized1DDrawable implements ShapeDrawable {
     double rotationAngle = 0,
     double scale = 1,
     Set<ObjectDrawableAssist> assists = const <ObjectDrawableAssist>{},
-    Map<ObjectDrawableAssist, Paint> assistPaints =
-        const <ObjectDrawableAssist, Paint>{},
+    Map<ObjectDrawableAssist, Paint> assistPaints = const <ObjectDrawableAssist, Paint>{},
     bool locked = false,
     bool hidden = false,
   })  : paint = paint ?? ShapeDrawable.defaultPaint,
@@ -72,6 +76,10 @@ class LineDrawable extends Sized1DDrawable implements ShapeDrawable {
       paint: paint ?? this.paint,
       locked: locked ?? this.locked,
     );
+  }
+
+  static LineDrawable copyWith2(LineDrawable lineDrawable) {
+    return LineDrawable(length: lineDrawable.length, position: lineDrawable.position);
   }
 
   /// Compares two [LineDrawable]s for equality.
